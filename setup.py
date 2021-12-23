@@ -19,7 +19,7 @@ install_requires = get_requirements("requirements.txt")
 
 setuptools.setup(
     name="notion2md",
-    version="0.1.0",
+    version="0.1.1",
     author="gclm",
     author_email="gclmit@163.com",
     description="convert notion page content to markdown",
