@@ -19,7 +19,7 @@ install_requires = get_requirements("requirements.txt")
 
 setuptools.setup(
     name="notion2md",
-    version="0.1.1",
+    version="0.1.2",
     author="gclm",
     author_email="gclmit@163.com",
     description="convert notion page content to markdown",
@@ -31,7 +31,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache License",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
 )
