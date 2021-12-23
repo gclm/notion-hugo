@@ -122,7 +122,6 @@ class Notion2Markdown:
             code_text = ''
             for line in block_text.split('\n'):
                 code_text += 4 * ' ' + line + '\n' + '  ' * level
-                print(json.dumps(code_text), level)
             return code_text
         else:
             return f'```{lang}\n{block_text}\n```'
