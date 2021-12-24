@@ -11,3 +11,6 @@ dist/
 .venv
 Pipfile
 .history
+*.log
+http
+index.py

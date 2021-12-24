@@ -1,4 +1,4 @@
-# notion2md
+# notion-hugo
 
 Convert notion page content to markdown
 
@@ -6,10 +6,10 @@ Convert notion page content to markdown
 
 ### Quickstart
 
-`pip install notion2md`
+`pip install notion-hugo`
 
 ```python
-from notion2md import NotionToMarkdown
+from notion import NotionToMarkdown
 
 token = os.environ['token']
 page_id = os.environ['page_id']
