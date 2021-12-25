@@ -169,7 +169,8 @@ class NotionPage:
         return md5_convert("{}-{}".format(self.title, millis))[4:12]
 
     def get_slug(self, data):
-        if not slug(data):
+        self.slug = slug(data)
+        if self.slug:
             self.slug = self.generate_slug()
         return self.slug
 
