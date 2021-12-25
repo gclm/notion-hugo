@@ -159,10 +159,7 @@ class NotionPage:
         self.slug = self.get_slug(data)
 
     def is_password(self):
-        return True if self.password else False
-
-    def is_slug(self):
-        return True if self.slug else False
+        return False if self.password or self.password in '' else True
 
     def generate_slug(self):
         millis = str(int(round(time.time() * 1000)))
@@ -170,7 +167,7 @@ class NotionPage:
 
     def get_slug(self, data):
         self.slug = slug(data)
-        if self.slug:
+        if self.slug or self.slug in '':
             self.slug = self.generate_slug()
         return self.slug
 
