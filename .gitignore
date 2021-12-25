@@ -5,6 +5,9 @@ dist/
 *.egg-info
 *_testing.py
 .idea
+http
+index.py
+data.json
 
 # pipenv
 .env
@@ -12,5 +15,3 @@ dist/
 Pipfile
 .history
 *.log
-http
-index.py

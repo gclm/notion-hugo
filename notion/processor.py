@@ -1,12 +1,10 @@
 # -*- coding:utf-8 -*-
 
 import hashlib
-import os
 import time
 from notion_client import Client
 from notion import Notion2Markdown
 from datetime import datetime
-import json
 
 
 def format_time(date):
@@ -77,11 +75,11 @@ def slug(data: dict) -> str:
 
 
 def build_hugo_head(notion):
-    category = notion.category.strip().replace("\b", "")
+    category_str = notion.category.strip().replace("\b", "")
     head_template = "---\n"
-    head_template += "slug: {}\n".format(notion.get_slug)
+    head_template += "slug: {}\n".format(notion.get_slug())
     head_template += "title: {}\n".format(notion.title)
-    head_template += "categories: ['{}']\n".format(category)
+    head_template += "categories: ['{}']\n".format(category_str)
     head_template += 'tags: {}\n'.format(notion.tags)
     head_template += "date: {}\n".format(notion.create_time)
     head_template += "lastmod: {}\n".format(notion.update_time)
@@ -139,30 +137,10 @@ def get_page_list(notion_client, database_id):
     return get_notion_page(items, token)
 
 
-def get_cache_store(file_path):
-    with open(file_path, "r") as fp:
-        return json.load(fp)
-
-
-def save_cache_store(file_path, cache_data):
-    with open(file_path, "w+") as fp:
-        fp.write(cache_data)
-
-
 def get_notion_page(items, token):
     pages = []
-    file_path = os.path.join(os.getcwd(), "data.json")
-    store = get_cache_store(file_path)
-    new_store = {}
-
     for i in range(len(items)):
-        page = NotionPage(items[i], token)
-        page_update_time = str(page.update_time)
-        new_store[page.page_id] = page_update_time
-        if (page.page_id not in store) or (page.page_id in store and page_update_time not in store[page.page_id]):
-            pages.insert(i, page)
-
-    save_cache_store(file_path, json.dumps(new_store))
+        pages.insert(i, NotionPage(items[i], token))
     return pages
 
 
