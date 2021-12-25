@@ -2,12 +2,10 @@
 
 > Convert notion page content to markdown
 
-<!-- markdownlint-disable -->
-<a href="https://pypi.org/project/notion-hugo"><img src="https://img.shields.io/pypi/v/notion-hugo.svg" alt="PyPI"></a>
-<a href="tox.ini"><img src="https://img.shields.io/pypi/gclm/notion-hugo" alt="Supported Python Versions"></a>
-<a href="LICENSE"><img src="https://img.shields.io/github/license/gclm/notion-hugo" alt="License"></a>
-<a href="https://github.com/gclm/notion-hugo/actions/workflows/publish-to-pypi.yml"><img src="https://github.com/gclm/notion-hugo/actions/workflows/publish-to-pypi.yml/badge.svg" alt="Publish to PyPI"></a>
-<!-- markdownlint-enable -->
+[![](https://img.shields.io/pypi/v/notion-hugo.svg)](https://pypi.org/project/notion-hugo/)
+[![](https://img.shields.io/pypi/pyversions/notion-hugo.svg)](https://pypi.org/project/notion-hugo/)
+[![](https://img.shields.io/pypi/l/notion-hugo.svg)](https://pypi.org/project/notion-hugo/)
+[![](https://github.com/gclm/notion-hugo/actions/workflows/publish-to-pypi.yml/badge.svg)](https://github.com/gclm/notion-hugo/actions/workflows/publish-to-pypi.yml)
 
 ## Usage
 
