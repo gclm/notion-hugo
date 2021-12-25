@@ -77,16 +77,13 @@ def slug(data: dict) -> str:
 def build_hugo_head(notion):
     category_str = notion.category.strip().replace("\b", "")
     head_template = "---\n"
-    head_template += "slug: {}\n".format(notion.get_slug())
+    head_template += "slug: {}\n".format(notion.slug)
     head_template += "title: {}\n".format(notion.title)
     head_template += "categories: ['{}']\n".format(category_str)
     head_template += 'tags: {}\n'.format(notion.tags)
     head_template += "date: {}\n".format(notion.create_time)
     head_template += "lastmod: {}\n".format(notion.update_time)
-    if notion.is_password:
-        head_template += "password: {}\n".format(notion.password)
     head_template += "---\n"
-
     return head_template.replace("'", '"')
 
 
@@ -134,10 +131,10 @@ def get_page_list(notion_client, database_id):
         else:
             break
 
-    return get_notion_page(items, token)
+    return parse_notion_page(items, token)
 
 
-def get_notion_page(items, token):
+def parse_notion_page(items, token):
     pages = []
     for i in range(len(items)):
         pages.insert(i, NotionPage(items[i], token))
@@ -159,20 +156,22 @@ class NotionPage:
         self.describe = describe(data)
         self.create_time = format_time(create_time(data))
         self.update_time = format_time(update_time(data))
-        self.slug = slug(data)
+        self.slug = self.get_slug(data)
 
     def is_password(self):
-        return False if self.password in '' else True
+        return True if self.password else False
 
     def is_slug(self):
-        return False if self.slug in '' else True
+        return True if self.slug else False
 
     def generate_slug(self):
         millis = str(int(round(time.time() * 1000)))
         return md5_convert("{}-{}".format(self.title, millis))[4:12]
 
-    def get_slug(self):
-        return self.slug if self.is_slug() else self.generate_slug()
+    def get_slug(self, data):
+        if not slug(data):
+            self.slug = self.generate_slug()
+        return self.slug
 
     def get_content(self):
         return Notion2Markdown(self.token, self.page_id).parse()

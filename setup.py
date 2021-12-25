@@ -20,13 +20,13 @@ install_requires = get_requirements("requirements.txt")
 
 setuptools.setup(
     name="notion-hugo",
-    version="0.1.8",
+    version="0.1.9",
     author="gclm",
     author_email="gclmit@163.com",
     description="convert notion page content to markdown",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/gclm/notion2md",
+    url="https://github.com/gclm/notion-hugo",
     install_requires=install_requires,
     include_package_data=True,
     packages=setuptools.find_packages(),
