@@ -20,7 +20,7 @@ install_requires = get_requirements("requirements.txt")
 
 setuptools.setup(
     name="notion-hugo",
-    version="0.2.0",
+    version="0.2.1",
     author="gclm",
     author_email="gclmit@163.com",
     description="convert notion page content to markdown",

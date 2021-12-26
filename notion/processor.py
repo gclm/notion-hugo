@@ -98,21 +98,22 @@ def build_hugo_head(notion):
 
 
 def update_page(notion_client, notion) -> bool:
-    return notion_client.pages.update(notion.page_id, properties={
-        "Slug": {
-            "rich_text": [
-                {
-                    "type": "text",
-                    "text": {
-                        "content": notion.slug
+    if notion.update:
+        return notion_client.pages.update(notion.page_id, properties={
+            "Slug": {
+                "rich_text": [
+                    {
+                        "type": "text",
+                        "text": {
+                            "content": notion.slug
+                        }
                     }
-                }
-            ]
-        },
-        "Url": {
-            "url": "https://blog.gclmit.club/post/{}/".format(notion.slug)
-        },
-    })
+                ]
+            },
+            "Url": {
+                "url": "https://blog.gclmit.club/post/{}/".format(notion.slug)
+            },
+        })
 
 
 def get_page_list(notion_client, database_id):
@@ -173,6 +174,7 @@ class NotionPage:
         self.create_time = format_time(create_time(data))
         self.update_time = format_time(update_time(data))
         self.slug = self.get_slug(data)
+        self.update = False
 
     def is_password(self):
         return False if self.password in '' else True
@@ -180,6 +182,7 @@ class NotionPage:
     def get_slug(self, data):
         self.slug = slug(data)
         if self.slug in '':
+            self.update = True
             self.slug = generate_slug()
         return self.slug
 
