@@ -1,9 +1,8 @@
 # -*- coding:utf-8 -*-
 
 import hashlib
-import time
 from notion_client import Client
-from notion import Notion2Markdown
+from notion import Notion2Markdown, Snowflake
 from datetime import datetime
 
 
@@ -50,9 +49,12 @@ def tags(data: dict) -> list:
     return tags_
 
 
-def password(data: dict) -> str:
-    if data['properties']['Password']['rich_text']:
-        return data['properties']['Password']['rich_text'][0].get('plain_text', '')
+def authors(data: dict) -> list:
+    authors_ = []
+    authors_node = data['properties'].get('Authors', {}).get('multi_select', [])
+    for i in authors_node:
+        authors_.append(i['name'])
+    return authors_
 
 
 def describe(data: dict) -> str:
@@ -67,6 +69,13 @@ def update_time(data: dict) -> str:
     return data['last_edited_time']
 
 
+def password(data: dict) -> str:
+    if data['properties']['Password']['rich_text']:
+        return data['properties']['Password']['rich_text'][0].get('plain_text', '')
+    else:
+        return ''
+
+
 def slug(data: dict) -> str:
     if data['properties']['Slug']['rich_text']:
         return data['properties']['Slug']['rich_text'][0].get('plain_text', '')
@@ -79,6 +88,7 @@ def build_hugo_head(notion):
     head_template = "---\n"
     head_template += "slug: {}\n".format(notion.slug)
     head_template += "title: {}\n".format(notion.title)
+    head_template += "authors: {}\n".format(notion.authors)
     head_template += "categories: ['{}']\n".format(category_str)
     head_template += 'tags: {}\n'.format(notion.tags)
     head_template += "date: {}\n".format(notion.create_time)
@@ -145,12 +155,18 @@ def get_notion_client(token):
     return Client(auth=token)
 
 
+def generate_slug():
+    worker = Snowflake
+    return str(worker.get_id())
+
+
 class NotionPage:
     def __init__(self, data, token):
         self.token = token
         self.page_id = get_page_id(data)
         self.title = title(data)
         self.category = category(data)
+        self.authors = str(authors(data))
         self.tags = str(tags(data))
         self.password = password(data)
         self.describe = describe(data)
@@ -159,22 +175,18 @@ class NotionPage:
         self.slug = self.get_slug(data)
 
     def is_password(self):
-        return False if self.password or self.password in '' else True
-
-    def generate_slug(self):
-        millis = str(int(round(time.time() * 1000)))
-        return md5_convert("{}-{}".format(self.title, millis))[4:12]
+        return False if self.password in '' else True
 
     def get_slug(self, data):
         self.slug = slug(data)
-        if self.slug or self.slug in '':
-            self.slug = self.generate_slug()
+        if self.slug in '':
+            self.slug = generate_slug()
         return self.slug
 
     def get_content(self):
         return Notion2Markdown(self.token, self.page_id).parse()
 
-    def build_hugo_head(self):
+    def get_hugo_head(self):
         return build_hugo_head(self)
 
     def update_page(self):
