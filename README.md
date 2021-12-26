@@ -14,7 +14,7 @@
 `pip install notion-hugo`
 
 ```python
-from notion import NotionToMarkdown
+from notion import Notion2Markdown
 
 token = os.environ['token']
 page_id = os.environ['page_id']
