@@ -161,8 +161,15 @@ def generate_slug():
     return str(worker.get_id())
 
 
+def is_page_update(data):
+    if slug(data) in '':
+        return True
+    return False
+
+
 class NotionPage:
     def __init__(self, data, token):
+        self.update = is_page_update(data)
         self.token = token
         self.page_id = get_page_id(data)
         self.title = title(data)
@@ -174,7 +181,6 @@ class NotionPage:
         self.create_time = format_time(create_time(data))
         self.update_time = format_time(update_time(data))
         self.slug = self.get_slug(data)
-        self.update = False
 
     def is_password(self):
         return False if self.password in '' else True
@@ -182,7 +188,6 @@ class NotionPage:
     def get_slug(self, data):
         self.slug = slug(data)
         if self.slug in '':
-            self.update = True
             self.slug = generate_slug()
         return self.slug
 

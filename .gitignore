@@ -5,8 +5,7 @@ dist/
 *.egg-info
 *_testing.py
 .idea
-http
-index.py
+test/
 data.json
 
 # pipenv

@@ -5,9 +5,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 
-def get_requirements(fname):
-    "Takes requirements from requirements.txt and returns a list."
-    with open(fname) as fp:
+def get_requirements(file_name):
+    """
+    Takes requirements from requirements.txt and returns a list.
+    """
+    with open(file_name) as fp:
         reqs = list()
         for lib in fp.read().split("\n"):
             # Ignore pypi flags and comments
@@ -20,7 +22,7 @@ install_requires = get_requirements("requirements.txt")
 
 setuptools.setup(
     name="notion-hugo",
-    version="0.2.2",
+    version="0.2.4",
     author="gclm",
     author_email="gclmit@163.com",
     description="convert notion page content to markdown",
