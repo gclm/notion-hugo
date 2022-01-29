@@ -41,7 +41,13 @@ class Notion2Markdown:
 
     def get_blocks(self, parent_block_id):
         page_data = self.notion.blocks.children.list(parent_block_id)
-        return page_data.get('results') or []
+        results = page_data.get('results')
+        if not results:
+            return []
+        while page_data["has_more"]:
+            page_data = self.notion.blocks.children.list(parent_block_id, start_cursor=page_data["next_cursor"])
+            results.extend(page_data["results"])
+        return results
 
     def _parse_blocks(self, blocks, level=0):
         text = ''
